@@ -196,6 +196,8 @@ AX_COMPILE_CHECK_SIZEOF(long long)
 AX_COMPILE_CHECK_SIZEOF(size_t, [#include <stdint.h>])
 AX_COMPILE_CHECK_SIZEOF(int64_t, [#include <stdint.h>])
 
+AM_MAINTAINER_MODE([enable])
+
 AC_CONFIG_FILES([
 Makefile
 json-c.pc
@@ -204,4 +206,3 @@ json-c-uninstalled.pc
 ])
 
 AC_OUTPUT
-
