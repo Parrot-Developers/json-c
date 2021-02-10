@@ -23,9 +23,4 @@ endif
 # this specific type of warnings, so we stop treating all warnings as errors.
 LOCAL_CFLAGS += -Wno-error
 
-# Don't redefine alloc functions
-LOCAL_AUTOTOOLS_CONFIGURE_ENV := \
-	ac_cv_func_malloc_0_nonnull=yes \
-	ac_cv_func_realloc_0_nonnull=yes
-
-include $(BUILD_AUTOTOOLS)
+include $(BUILD_CMAKE)
