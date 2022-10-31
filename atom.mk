@@ -13,9 +13,19 @@ LOCAL_CREATE_LINKS := \
 	usr/include/json:json-c \
 	usr/lib/libjson.a:libjson-c.a
 
+ifneq ("$(TARGET_DEFAULT_LIB_DESTDIR)","usr/lib")
+define LOCAL_CMAKE_CMD_POST_INSTALL
+	@mkdir -p $(TARGET_OUT_STAGING)/$(TARGET_DEFAULT_LIB_DESTDIR)
+	$(Q) cp -a $(TARGET_OUT_STAGING)/usr/lib/libjson-c.so $(TARGET_OUT_STAGING)/$(TARGET_DEFAULT_LIB_DESTDIR)/
+	$(Q) cp -a $(TARGET_OUT_STAGING)/usr/lib/libjson-c.a $(TARGET_OUT_STAGING)/$(TARGET_DEFAULT_LIB_DESTDIR)/
+endef
+endif
+
+ifneq ("$(TARGET_OS)","hexagon")
 ifneq ("$(TARGET_FORCE_STATIC)","1")
 LOCAL_CREATE_LINKS += \
 	usr/lib/libjson.so:libjson-c.so
+endif
 endif
 
 # Do not error out on implicit fallthrough in switch statements. json-c is

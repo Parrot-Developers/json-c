@@ -14,6 +14,9 @@ if (CMAKE_VERSION VERSION_LESS 3.0)
 	set(PROJECT_VERSION_PATCH "0")
 	set(PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
 else()
+	# don't try to create executables
+	set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+	set(CMAKE_C_COMPILER_WORKS TRUE)
 	project(json-c LANGUAGES C VERSION 0.15)
 endif()
 
@@ -44,6 +47,7 @@ include(CTest)
 
 if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING AND
    (NOT MSVC OR NOT (MSVC_VERSION LESS 1800)) # Tests need at least VS2013
+   AND NOT CMAKE_SYSTEM_NAME STREQUAL "hexagon"
    )
 add_subdirectory(tests)
 endif()
@@ -162,7 +166,7 @@ if ((MSVC AND NOT (MSVC_VERSION LESS 1800)) OR MINGW OR CYGWIN OR UNIX)
 endif()
 
 check_symbol_exists(_doprnt         "stdio.h" HAVE_DOPRNT)
-if (UNIX OR MINGW OR CYGWIN)
+if (UNIX OR MINGW OR CYGWIN OR CMAKE_SYSTEM_NAME STREQUAL "hexagon")
     check_symbol_exists(snprintf    "stdio.h" HAVE_SNPRINTF)
 endif()
 check_symbol_exists(vasprintf       "stdio.h" HAVE_VASPRINTF)

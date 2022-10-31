@@ -113,8 +113,10 @@ include_directories(${PROJECT_BINARY_DIR})
 
 # Now, finally, the actual executables we're building:
 
-add_executable(json_parse json_parse.c)
-target_link_libraries(json_parse PRIVATE ${APPS_LINK_LIBS})
+if (NOT CMAKE_SYSTEM_NAME STREQUAL "hexagon")
+	add_executable(json_parse json_parse.c)
+	target_link_libraries(json_parse PRIVATE ${APPS_LINK_LIBS})
+endif()
 
 # Note: it is intentional that there are no install instructions here yet.
 # When/if the interface of the app(s) listed here settles down enough to
