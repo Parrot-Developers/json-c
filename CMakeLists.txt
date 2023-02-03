@@ -14,9 +14,11 @@ if (CMAKE_VERSION VERSION_LESS 3.0)
 	set(PROJECT_VERSION_PATCH "0")
 	set(PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
 else()
-	# don't try to create executables
-	set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
-	set(CMAKE_C_COMPILER_WORKS TRUE)
+	# don't try to create executables for hexagon builds only
+	if (CMAKE_SYSTEM_NAME STREQUAL "hexagon")
+		set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+		set(CMAKE_C_COMPILER_WORKS TRUE)
+	endif()
 	project(json-c LANGUAGES C VERSION 0.15)
 endif()
 
